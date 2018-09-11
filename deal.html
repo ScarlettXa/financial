@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+	<meta charset="UTF-8">
+	<title>跳转中...</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=.8, user-scalable=yes">
+<meta name="renderer" content="webkit">
+<link rel="shortcut icon" href="/assets/img/favicon.ico" />
+<link rel="stylesheet" href="/assets/css/layui.css">
+<link rel="stylesheet" href="/assets/css/backend.css">
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/css/skins/skin-blue.css">
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jquery.slimscroll.min.js"></script>
+<script src="assets/js/adminlte.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
+<script src="/assets/js/layui.all.js"></script>
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+<!--[if lt IE 9]>
+  <script src="/assets/js/html5shiv.js"></script>
+  <script src="/assets/js/respond.min.js"></script>
+<![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed" id="tabs">
+
+    
+<div class="wrapper">
+ <header id="header" class="main-header">
+<a  class="logo" style="text-decoration: none">
+    <span class="logo-mini">LX商城</span>
+    <span class="logo-lg"><b>LX商城</b></span>
+</a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" style="width: auto;text-decoration: none;font-size: 2em;padding: 8px;background: rgba(0,0,0,.2);z-index: 999">
+            <span class="sr-only">菜单</span><span>菜单</span>
+        </a>
+
+        <div id="nav" class="pull-left">
+            <ul class="nav nav-tabs nav-addtabs disable-top-badge" role="tablist">
+            </ul>
+        </div>
+
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a style='font-size:1.2em;padding-left: 0;padding-right: 0;cursor: pointer;' class='kefuwechat' data=''>点击专属客服:<span style="display: inline-block;border:2px solid red"></span></a>
+                </li>
+                                <li>
+                    <a href="/?act=refresh" style="font-size: 1.4em;text-shadow: 0 1px 1px rgba(0,0,0,.5);color: #16fdb8"><span>共赢<span style='background:red;color:white;display:inline-block;margin:0 2px;border-radius:50%;padding:2px;'>新</span></span></a>
+                </li>
+                <li>
+                    <a href="/index/logout" class="btn btn-danger" style="height: 50px;border: none;font-size: 1.4em"><i class="fa fa-sign-out"></i> <span>退出</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<aside class="main-sidebar" style="background: #000;border-right: 1px solid rgba(255,255,255,.1);font-size: 1.8em;">
+<section class="sidebar">
+    <ul class="sidebar-menu">
+        <li class=" active"><a href="/?o" url="/desktop" py="kb" pinyin="shouye"><i class="fa fa-dashboard"></i> <span>首页</span> <span class="pull-right-container"> <!-- <small class="label pull-right bg-blue">hot</small> --></span></a> 
+		</li>
+
+		<li><a href="/team" url="/team" py="xw" pinyin="tuandui"><i class="fa fa-users"></i> <span>团队</span> <span class="pull-right-container"> </span></a> 
+		</li>
+
+		<li><a href="/setting" url="/setting" py="xw" pinyin="gerenshezhi"><i class="fa fa-cogs"></i> <span>个人设置</span> <span class="pull-right-container"> </span></a> 
+		</li>
+
+		<li><a href="/wallet" url="/wallet" py="xw" pinyin="qianbao"><i class="fa fa-rmb"></i> <span>钱包</span> <span class="pull-right-container"> </span></a> 
+		</li>
+        
+        <li><a href='/jifen' url='/jifen' py='jf' pinyin='jifen'><i class='fa fa-money'></i> <span>积分</span> <span class='pull-right-container'> </span></a></li>
+		<li><a href="/reg?r=bGbnh69fp" url="/reg" py="xw" pinyin="zhucexinhuiyuan"><i class="fa fa-user-plus"></i> <span>注册新会员</span> <span class="pull-right-container"> </span></a> 
+		</li>
+
+        <li><a href="/?act=tomall" url="/?act=tomall" target="_blank"><i class="fa fa-shopping-cart"></i> <span>LX商城</span> <span class="pull-right-container"> </span></a> 
+        </li>
+        <li><a href='/deal' url='/deal'><i class='fa fa-balance-scale'></i> <span>积分交易系统</span> <span class='pull-right-container'> </span></a></li>	</ul>
+</section>
+</aside>
+<script>
+    var layer = layui.layer;
+	(function(){
+		$(document).on('click','.sidebar-menu li',function(){
+			$('.sidebar-menu li').removeClass('active');
+			$(this).addClass('active');
+		})
+        //全屏事件
+        $(document).on('click', "[data-toggle='fullscreen']", function () {
+            var doc = document.documentElement;
+            if ($(document.body).hasClass("full-screen")) {
+                $(document.body).removeClass("full-screen");
+                document.exitFullscreen ? document.exitFullscreen() : document.mozCancelFullScreen ? document.mozCancelFullScreen() : document.webkitExitFullscreen && document.webkitExitFullscreen();
+            } else {
+                $(document.body).addClass("full-screen");
+                doc.requestFullscreen ? doc.requestFullscreen() : doc.mozRequestFullScreen ? doc.mozRequestFullScreen() : doc.webkitRequestFullscreen ? doc.webkitRequestFullscreen() : doc.msRequestFullscreen && doc.msRequestFullscreen();
+            }
+        });
+        var sss = location.href.split(location.host+'/')[1];
+        if ($.inArray(sss,['team','setting','wallet','jifen','deal'])>-1) {
+            $('.sidebar-menu li').removeClass('active');
+            $(document).find('[href=\'/'+sss+'\']').parents('li').addClass('active');
+        }
+        $(document).on('click','.kefuwechat',function(){
+            var wechat = $(this).attr('data');
+            layer.open({
+                type:1,
+                content:'<div style=\'padding:30px;font-size:1.2em;text-align:center\'>官方客服微信号→ <span style=\'display:inline-block;border:1px solid #555 ;padding:2px 4px\'>'+wechat+'</span><br><br><span style=\'font-size:.85em;color:#777\'>请仔细核对微信号，防止骗子!</span></div>',
+                title:'注意'
+            })
+        })
+	})();
+</script>
+<style>
+    div.maincon{width: 94%;text-align: center;margin: 20px auto;}
+    .contitle{text-align: left;background: rgba(255,255,255,.8);padding: 0.5em 1em;border-bottom: 3px solid #3c8dbc;font-size: 1.2em;margin-top: 10px;font-weight: bold}
+    .content-wrapper{background: url('assets/img/newbg.jpg') 50% 50% repeat #000;background-size: contain;}
+    table.table td , table.table th{text-align: center;}
+    .table tr:nth-child(odd){background: rgba(0,0,0,.03);}
+    .table tr:hover{background: rgba(255,255,255,.4);}
+    .skin-blue .main-header .navbar{}
+    .skin-blue .main-header .logo{}
+    @media (max-width: 767px) {
+        .skin-blue .main-header .navbar{background-size: cover;}
+    }
+</style>
+<div class="content-wrapper tab-content tab-addtabs">
+	<div role="tabpanel" class="tab-pane active" style="overflow: auto">
+		<div class="maincon">
+			<div class="dealpanle row">
+				<div class="maimai col-xs-12 col-md-8">
+					<div class="mairu col-xs-12 col-md-6">
+						<div class="ptitle">
+							买入理想积分
+						</div>
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-3 control-label text-right">可用:</label>
+								<div class="dropdown col-sm-9">
+								  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+								    <span class='bb'>本息账户<span class="rednum">0</span>CNY</span>
+								    <span class="caret"></span>
+								  </button>
+								  <ul class="dropdown-menu buyintype" aria-labelledby="dropdownMenu1">
+								    <li><a>本息账户<span class="rednum">0</span>CNY</a></li>
+								    <!-- <li><a>奖励账户<span class="rednum">100</span>CNY</a></li> -->
+								    <li><a>佣金账户<span class="rednum"></span>CNY</a></li>
+								  </ul>
+								</div>
+							</div>
+						  <div class="form-group">
+						  	<label class="col-sm-3 control-label text-right">买入价格:</label>
+						    <div class="col-sm-9">
+						      <input type="text" class="form-control buyinprice" placeholder="0.00">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						  	<label class="col-sm-3 control-label text-right">最大可买:</label>
+						    <div class="col-sm-9">
+						    	<input type="text" class="form-control maxbuyinnum" disabled placeholder="0" value="">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						  	<label class="col-sm-3 control-label text-right">买入数量:</label>
+						    <div class="col-sm-9">
+						      <input type="text" class="form-control buyinnum" placeholder="买入数量">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						  	<label class="col-sm-3 control-label text-right">总价:</label>
+						    <div class="col-sm-9">
+						    	<input type="text" class="form-control buyinmoney" disabled placeholder="0">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						  	<label class="col-sm-3 control-label text-right">费率:</label>
+						    <div class="col-sm-9">
+						    	<input type="text" class="form-control buyinfeerate" disabled placeholder="0%">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <div class="col-xs-12 col-md-12">
+						      <button type="button" class="btn btn-default buyinsubmit col-xs-12 col-md-12">买入</button>
+						    </div>
+						  </div>
+						</form>
+					</div>
+					<div class="maichu col-xs-12 col-md-6">
+						<div class="ptitle">
+							卖出理想积分
+						</div>
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-3 control-label text-right">可用:</label>
+								<span class='greennum'>0</span>
+							</div>
+							<div class="form-group">
+						  		<label class="col-sm-3 control-label text-right">卖出价格:</label>
+						    	<div class="col-sm-9">
+						    		<input type="text" class="form-control selloutprice" placeholder="0.00">
+						    	</div>
+						  	</div>
+						  <div class="form-group">
+						  	<label class="col-sm-3 control-label text-right">最大可卖:</label>
+						    <div class="col-sm-9">
+						    	<input type="text" class="form-control maxselloutnum" disabled placeholder="0" value="">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						  	<label class="col-sm-3 control-label text-right">卖出数量:</label>
+						    <div class="col-sm-9">
+						      <input type="text" class="form-control selloutnum" placeholder="买入数量">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						  	<label class="col-sm-3 control-label text-right">总价:</label>
+						    <div class="col-sm-9">
+						    	<input type="text" class="form-control selloutmoney" disabled placeholder="0">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						  	<label class="col-sm-3 control-label text-right">费率:</label>
+						    <div class="col-sm-9">
+						    	<input type="text" class="form-control selloutfeerate" disabled placeholder="5%">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <div class="col-xs-12 col-md-12">
+						      <button type="button" class="btn btn-default selloutsubmit col-xs-12 col-md-12">卖出</button>
+						    </div>
+						  </div>
+						</form>
+					</div>
+				</div>
+				<div class="liushui col-xs-12 col-md-4">
+					<div class="ltitle">最新价:<span>¥<span class="lnum"></span></span></div>
+					<div class="lsell"></div>
+					<div class="lbuy"></div>
+				</div>
+			</div>
+			<div class="dealpanle row">
+				<div class="processing col-xs-12 col-md-6">
+					<div class="phtitle">
+						进行中的委托
+					</div>
+					<div>
+						空					</div>
+				</div>
+				<div class="history col-xs-12 col-md-6">
+					<div class="phtitle">
+						历史委托
+					</div>
+					<div>
+						空					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<style>
+	.dealpanle{background: #fff;padding: 20px 0;text-align: left;transition: all .5s;}
+	.maimai > div{min-height: 200px;}
+	.maimai .maichu{border-left: 1px dotted #ddd;border-right:1px dotted #ddd;}
+	@media screen and (max-width:768px){
+		.maimai .maichu{border-left:0;border-right:0; border-top:1px dotted #ddd;border-bottom:1px dotted #ddd;}
+	}
+	.maimai > div .ptitle{padding-left: 2px;font-weight: bold;font-size: 1.7em;margin-bottom: 5px;}
+	.maimai .mairu .ptitle{color: #f00}
+	.maimai .maichu .ptitle{color: #0a0}
+	.maimai .ptip{margin:10px 0;}
+	.buyinsubmit{background: red;color: #fff;font-size: 1.6em;font-weight: bold}
+	.selloutsubmit{background: #0a0;color: #fff;font-size: 1.6em;font-weight: bold}
+	.rednum{color: red;font-weight: bold;font-size: 1.2em;display: inline-block;margin:0 2px;}
+	.greennum{color: #0a0;font-weight: bold;font-size: 1.2em;display: inline-block;margin:0 2px;display: inline-block;height: 34px;line-height: 34px;}
+	input[disabled]{border: none;background: none !important;box-shadow: none;cursor: default !important;}
+	.ltitle{font-size: 1.4em;border-bottom: 1px solid #eee;padding-bottom: 5px;}
+	.ltitle span{margin: 0 5px;}
+	.ltitle .zhang , .ltitle .ping{color: #0a0}
+	.ltitle .die{color: #f00}
+	.ltitle .zhang:after{content:'↑';}
+	.ltitle .die:after{content:'↓';}
+	.ltitle .ping:after{content:'→';}
+	.lsell{margin:5px 0 10px;border-bottom: 1px dotted #eee}
+	.lsell span , .lbuy span{display: inline-block;width: 32%;line-height: 30px;font-size: 1.3em}
+	.lsell span:first-child{color: #080}
+	.lbuy span:first-child{color: red}
+
+	.phtitle{background: #eee;display:block;padding: 3px 10px;font-size: 1.2em;font-weight: bold;color: #f72}
+	.green{color: #0a0}
+	.red{color: red}
+</style>
+<script>
+	document.title='积分交易大厅';
+	(function(){
+		var havemoney = parseFloat($(document).find('.bb .rednum').text());
+		var buyintype = 0;
+		var buyinprice = 0;
+		var maxbuyinnum = 0;
+		var buyinnum = 0;
+		var buyinmoney = 0;
+		var buyinfeerate = 0;
+
+		var havejifen = parseFloat($(document).find('.greennum').text());
+		var selloutprice = 0;
+		var maxselloutnum = 0;
+		var selloutnum = 0;
+		var selloutmoney = 0;
+		var selloutfeerate = 0.05;
+
+		$(document).on('click','.buyintype li',function(){
+			var t = $(this);
+			var te = t.find('a').html();
+			var tt = t.find('a').text();
+			if(tt[0] =='本') buyintype = 0;//本息账户
+			if(tt[0] =='奖') buyintype = 1;//奖励账户
+			if(tt[0] =='佣') buyintype = 2;//佣金账户
+			buyinfeerate = (buyintype==2) ? 0.1 : 0;
+			havemoney = parseFloat(t.find('.rednum').text());
+			t.parent('ul').prev('button').find('span.bb').html(te);
+			$(document).find('.buyinfeerate').attr('placeholder',buyinfeerate*100+'%')
+			calbuyin()
+		}).on('change','.buyinprice',function(){
+			var t = $(this);
+			buyinprice = parseFloat(t.val());
+			if(!buyinprice) buyinprice=0.00;
+			t.val(buyinprice);
+			calbuyin()
+		}).on('change','.buyinnum',function(){
+			var t = $(this);
+			buyinnum = parseFloat(t.val());
+			if(!buyinnum) buyinnum=0.00;
+			t.val(buyinnum);
+			calbuyin()
+		}).on('click','.buyinsubmit',function(){
+			if(buyinmoney>havemoney){
+				console.log(buyinmoney+'----'+havemoney);
+				return layer.msg('您的账户余额不足！');
+			}
+			$.ajax({
+				type:'post',
+				url:'/deal?',
+				data:'act=buyin&type='+buyintype+'&price='+buyinprice+'&num='+buyinnum,
+				success:function(data){
+					var res = eval("("+data+")");
+					layer.msg(res.content);
+					if (res.status==1) setTimeout(function(){location.reload()},500);
+				}
+			})
+		})
+
+		$(document).on('change','.selloutprice',function(){
+			var t = $(this);
+			selloutprice = parseFloat(t.val());
+			if(!selloutprice) selloutprice = 0;
+			t.val(selloutprice);
+			calsellout()
+		}).on('change','.selloutnum',function(){
+			var t = $(this);
+			selloutnum = parseFloat(t.val());
+			if(!selloutnum) selloutnum = 0;
+			t.val(selloutnum);
+			calsellout();
+		}).on('click','.selloutsubmit',function(){
+			if (selloutnum>havejifen) {
+				return layer.msg('您的积分不足');
+			}
+			$.ajax({
+				type:'post',
+				url:'/deal?',
+				data:'act=sellout&num='+selloutnum+'&price='+selloutprice,
+				success:function(data){
+					var res = eval("("+data+")");
+					layer.msg(res.content);
+					if (res.status==1) setTimeout(function(){location.reload()},500);
+				}
+			})
+		})
+		function calbuyin()
+		{
+			// if(buyintype==1){
+			// 	maxbuyinnum = (havemoney/(buyinprice*(1+buyinfeerate)*0.5)).toFixed(4);
+			// }else{
+			// }
+				maxbuyinnum = (havemoney/(buyinprice*(1+buyinfeerate))).toFixed(4);
+			
+			if(buyinprice) $(document).find('.maxbuyinnum').attr('placeholder',maxbuyinnum);
+			buyinmoney = (buyinnum*buyinprice*(1+buyinfeerate)).toFixed(4);
+			if(buyinmoney) $(document).find('.buyinmoney').attr('placeholder',buyinmoney);
+		}
+		function calsellout()
+		{
+			maxselloutnum = (havejifen/selloutprice).toFixed(4);
+			if(!maxselloutnum) maxselloutnum=0;
+			$(document).find('.maxselloutnum').attr('placeholder',maxselloutnum);
+			selloutmoney = (selloutnum*selloutprice*0.95).toFixed(4);
+			if(selloutmoney){
+				$(document).find('.selloutmoney').attr('placeholder',selloutmoney);
+			}
+		}
+
+		var lnum = $(document).find('.lnum');
+		var lnumt = lnum.parent('span');
+		var lsell = $(document).find('.lsell');
+		var lbuy = $(document).find('.lbuy');
+		var selllist = null;
+		var buylist = null;
+		setInterval(function(){refreshreal()},5000)
+		function refreshreal()
+		{
+			$.ajax({
+				type:'post',
+				url:'/deal?',
+				data:'act=realdeal',
+				success:function(data){
+					lsell.html('');
+					lbuy.html('');
+					var res = eval("("+data+")");
+					lnum.text(res.latest);
+					lnumt.attr('class',res.zhangdie);
+					selllist = res.sell;
+
+					var sellcon = '';
+					for (var i in selllist) {
+						sellcon += '<div><span class=\'ccnum\'>卖'+(6-i)+'</span><span>¥ '+selllist[i][0]+'</span><span>'+selllist[i][1]+'</span></div>';
+					}
+					lsell.html(sellcon);
+
+					
+					buylist = res.buy;
+					var buycon = '';
+					for (var i in buylist) {
+						buycon += '<div><span class=\'ccnum\'>买'+i+'</span><span>¥ '+buylist[i][0]+'</span><span>'+buylist[i][1]+'</span></div>';
+					}
+					lbuy.html(buycon);
+				}
+			})
+		}
+		refreshreal();
+		$(document).on('click','.cancleone',function(){
+			var t = $(this);
+			var id = t.attr('data-id');
+			var type = t.attr('data-type');
+			$.ajax({
+				type:'post',
+				url:'/deal?',
+				data:'act=cancleone&id='+id+'&type='+type,
+				success:function(data){
+					var res = eval("("+data+")");
+					layer.msg(res.content);
+					if(res.status) setTimeout(function(){location.reload()},500)
+				}
+			})
+		})
+	})()
+</script>
